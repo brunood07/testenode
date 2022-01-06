@@ -20,11 +20,11 @@ class AuthenticateUserUseCase {
   async execute({ email, password }: IAuthenticateUser) {
     const user = await this.usersRepository.findByEmail(email);
 
-    if (!user) throw new AppError("username or password incorrect");
+    if (!user) throw new AppError("email or password incorrect");
 
     const passwordMatch = await compare(password, user.password);
 
-    if (!passwordMatch) throw new AppError("username or password incorrect");
+    if (!passwordMatch) throw new AppError("email or password incorrect");
 
     const secretToken = "e2171a394509ff73270a6dee1745d4b4";
 
