@@ -10,7 +10,6 @@ class UsersRepositoryInMemory implements IUsersRepository {
     email,
     phone,
     password,
-    password_confirmation
   }: ICreateUserDTO): Promise<void> {
     const user = new User();
 
@@ -19,7 +18,6 @@ class UsersRepositoryInMemory implements IUsersRepository {
       email,
       phone,
       password,
-      password_confirmation
     });
 
     this.users.push(user);
@@ -29,12 +27,16 @@ class UsersRepositoryInMemory implements IUsersRepository {
     return this.users.find(user => user.email === email);
   }
 
-  updateUser(): Promise<User> {
+  async findById(id: string): Promise<User> {
+    return this.users.find(user => user.id === id);
+  }
+
+  async updateUser({ id, name, phone }): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  listUsers(): Promise<User[]> {
-    throw new Error("Method not implemented.");
+  async findAllUsers(): Promise<User[]> {
+    return this.users.filter((users) => users);
   }
   
 }

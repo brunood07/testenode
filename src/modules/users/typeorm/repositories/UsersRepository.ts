@@ -33,12 +33,21 @@ class UsersRepository implements IUsersRepository {
     return await this.repository.findOne({ email });
   }
 
-  updateUser(): Promise<User> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<User> {
+    return await this.repository.findOne({ id });
   }
 
-  listUsers(): Promise<User[]> {
-    throw new Error("Method not implemented.");
+  async updateUser({ id, name, phone }): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update(User)
+      .set({ name: name, phone: phone })
+      .where("id = :id", { id: id })
+      .execute();
+  }
+
+  async findAllUsers(): Promise<User[]> {
+    return await this.repository.find();
   }
 
 }

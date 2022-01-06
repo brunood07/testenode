@@ -1,5 +1,5 @@
 import { hash } from "bcryptjs";
-import { User } from "modules/users/typeorm/entities/User";
+import { User } from "../../typeorm/entities/User";
 import { inject, injectable } from "tsyringe";
 
 import { AppError } from "../../../../shared/errors/AppError";
@@ -26,13 +26,11 @@ class CreateUserUseCase {
     phone,
     password,
     passwordConfirmation
-  }: ICreateUser) {
+  }: ICreateUser): Promise<void> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
-    if (userAlreadyExists) {
-      throw new AppError("User already exists");
-    }
-    
+    if (userAlreadyExists) throw new AppError("User already exists");
+ 
     if (password.length < 8) throw new AppError("Password must be at least 8 characters");
     
     if (password.search(/[A-Z]/) < 0) throw new AppError("Password must have at least one upper case character");
@@ -47,15 +45,12 @@ class CreateUserUseCase {
 
     const passwordHash = await hash(password, 8);
 
-    const user = await this.usersRepository.create({
+    await this.usersRepository.create({
       name,
       email,
       phone,
       password: passwordHash,
-      passwordConfirmation,
     });
-
-    return user;
   }
 }
 

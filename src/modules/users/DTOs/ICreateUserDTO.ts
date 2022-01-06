@@ -4,7 +4,7 @@ interface ICreateUserDTO {
   email: string;
   phone: number;
   password: string;
-  passwordConfirmation: string;
+  passwordConfirmation?: string;
 }
 
 export { ICreateUserDTO };
