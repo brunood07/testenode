@@ -2,11 +2,6 @@ import { inject, injectable } from "tsyringe";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { User } from "../../typeorm/entities/User";
 
-interface IListALlUsers {
-  page: string;
-  take: string;
-}
-
 @injectable()
 class ListAllUsersUseCase {
   constructor(
@@ -14,8 +9,8 @@ class ListAllUsersUseCase {
     private usersRepository: IUsersRepository
   ) {}
   
-  async execute({ page, take }: IListALlUsers): Promise<User[]> {
-    const allUsers = await this.usersRepository.findAllUsers({ page, take });
+  async execute({ take, skip }): Promise<User[]> {
+    const allUsers = await this.usersRepository.findAllUsers({ take, skip });
 
     return allUsers;
   }

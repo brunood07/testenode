@@ -52,10 +52,14 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findAllUsers({ page, take }): Promise<User[]> {
+  async findAllUsers({ take, skip }): Promise<User[]> {
     const data = await this.repository.find({
-      take,
-      skip: take * (page - 1)
+      select: ["name", "phone", "email"],
+      order: {
+        name: "ASC",
+      },
+      skip: skip,
+      take: take
     });
 
     return data;

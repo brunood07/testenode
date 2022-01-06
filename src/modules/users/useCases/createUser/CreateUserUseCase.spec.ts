@@ -20,8 +20,6 @@ describe("Create User", () => {
       passwordConfirmation: "Test123*"
     });
 
-    console.log(user);
-
     expect(user).toHaveProperty("id");
   });
 

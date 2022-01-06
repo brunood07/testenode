@@ -43,10 +43,11 @@ class UsersRepositoryInMemory implements IUsersRepository {
     return user;
   }
 
-  async findAllUsers(): Promise<User[]> {
-    return this.users.filter((users) => users);
+  async findAllUsers({ take, skip }): Promise<User[]> {
+    const pagination = this.users.slice(skip, take + skip);
+
+    return pagination;
   }
-  
 }
 
 export { UsersRepositoryInMemory };
