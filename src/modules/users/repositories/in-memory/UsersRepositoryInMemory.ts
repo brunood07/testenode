@@ -10,7 +10,7 @@ class UsersRepositoryInMemory implements IUsersRepository {
     email,
     phone,
     password,
-  }: ICreateUserDTO): Promise<void> {
+  }: ICreateUserDTO): Promise<User> {
     const user = new User();
 
     Object.assign(user, {
@@ -21,6 +21,8 @@ class UsersRepositoryInMemory implements IUsersRepository {
     });
 
     this.users.push(user);
+
+    return user;
   }
 
   async findByEmail(email: string): Promise<User> {
@@ -31,8 +33,14 @@ class UsersRepositoryInMemory implements IUsersRepository {
     return this.users.find(user => user.id === id);
   }
 
-  async updateUser({ id, name, phone }): Promise<void> {
-    throw new Error("Method not implemented.");
+  async updateUser({ id, name, phone }): Promise<User> {
+    const user = this.users.find(user => user.id === id);
+    if (user) {
+      user.name = name;
+      user.phone = phone;
+    } 
+
+    return user;
   }
 
   async findAllUsers(): Promise<User[]> {

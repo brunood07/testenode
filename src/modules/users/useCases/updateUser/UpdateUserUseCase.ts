@@ -6,7 +6,7 @@ import { AppError } from "../../../../shared/errors/AppError";
 interface IUpdateUser {
   id: string;
   name?: string;
-  phone?: string;
+  phone?: number;
 }
 
 @injectable()
@@ -21,11 +21,14 @@ class UpdateUserUseCase {
     name,
     phone
   }: IUpdateUser) {
-    const userExists = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(id);
 
-    if (!userExists) throw new AppError("user does not exists");
+    if (!user) throw new AppError("user does not exists");
+
+    user.name = name ? name : user.name
+    user.phone = phone ? phone : user.phone
     
-    const updatedUser = await this.usersRepository.updateUser({ id, name, phone });
+    const updatedUser = await this.usersRepository.updateUser(user);
 
     return updatedUser;
   }

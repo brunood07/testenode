@@ -26,7 +26,7 @@ class CreateUserUseCase {
     phone,
     password,
     passwordConfirmation
-  }: ICreateUser): Promise<void> {
+  }: ICreateUser): Promise<User> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) throw new AppError("User already exists");
@@ -35,7 +35,7 @@ class CreateUserUseCase {
     
     if (password.search(/[A-Z]/) < 0) throw new AppError("Password must have at least one upper case character");
 
-    if (password.search(/[A-Z]/) < 0) throw new AppError("Password must have at least one lower case character");
+    if (password.search(/[a-z]/) < 0) throw new AppError("Password must have at least one lower case character");
 
     if (!password.match(/([0-9])/)) throw new AppError("Password must have at least a number");
 
@@ -45,12 +45,15 @@ class CreateUserUseCase {
 
     const passwordHash = await hash(password, 8);
 
-    await this.usersRepository.create({
+    const user: User = await this.usersRepository.create({
       name,
       email,
       phone,
       password: passwordHash,
+      passwordConfirmation,
     });
+
+    return user;
   }
 }
 

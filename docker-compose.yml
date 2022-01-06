@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=teste
-      - POSTGRES_DB=teste
+      - POSTGRES_DB=testenode
     volumes:
       - pgdata:/data/postgres
 

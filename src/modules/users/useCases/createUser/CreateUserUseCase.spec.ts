@@ -11,19 +11,19 @@ describe("Create User", () => {
     createUserUseCase = new CreateUserUseCase(usersRepository);
   });
 
-  // it("Should be able to create a new user", async () => {
-  //   const user = await createUserUseCase.execute({
-  //     name: "Test Name",
-  //     email: "test@example.com",
-  //     phone: 123456789,
-  //     password: "Test123*",
-  //     passwordConfirmation: "Test123*"
-  //   });
+  it("Should be able to create a new user", async () => {
+    const user = await createUserUseCase.execute({
+      name: "Test Name",
+      email: "test@example.com",
+      phone: 123456789,
+      password: "Test123*",
+      passwordConfirmation: "Test123*"
+    });
 
-  //   console.log(user);
+    console.log(user);
 
-  //   expect(user).toHaveProperty("id");
-  // });
+    expect(user).toHaveProperty("id");
+  });
 
   it("Should not be able to create a new user with an already registered email", async () => {
     await createUserUseCase.execute({
