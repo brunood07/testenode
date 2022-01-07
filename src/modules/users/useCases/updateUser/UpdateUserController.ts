@@ -15,7 +15,7 @@ class UpdateUserController {
 
     const result = await updateUserUseCase.execute({ id, name, phone });
 
-    return res.status(200).send("user information updated");
+    return res.status(200).json(result);
   }
 }
 

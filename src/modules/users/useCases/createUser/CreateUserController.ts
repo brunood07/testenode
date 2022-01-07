@@ -23,7 +23,7 @@ class CreateUserController {
       phone
     });
 
-    return res.status(201).send("user created successfully");
+    return res.status(201).json(user);
   }
 }
 
